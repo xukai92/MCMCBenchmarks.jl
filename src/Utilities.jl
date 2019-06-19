@@ -78,9 +78,15 @@ end
 
 function getpath()
     userdir = expanduser("~")
-    str = split(string(VERSION),".")[1:end-1]
-    str1 = [str[s]*"." for s in 1:length(str)-1]
-    push!(str1,str[end])
+    local str, str1
+    if Sys.islinux
+      str = split(string(VERSION),".")[1:end-1]
+      str1 = [str[s]*"." for s in 1:length(str)-1]
+      push!(str1, str = split(string(VERSION),".")[1:2])
+    else
+      str = split(string(VERSION),".")[1:end-2]
+      str1 = str[1]*"."*str[2]
+    end
     version = string(str1...)
     path = joinpath(userdir, string(".julia/environments/v",version,"/Manifest.toml"))
     return path

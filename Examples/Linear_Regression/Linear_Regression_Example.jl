@@ -1,4 +1,4 @@
-using Revise,MCMCBenchmarks,Distributed
+using MCMCBenchmarks,Distributed
 Nchains=4
 setprocs(Nchains)
 
@@ -34,7 +34,7 @@ end
 
 samplers=(
   CmdStanNUTS(CmdStanConfig,ProjDir),
-  AHMCNUTS(AHMCregression,AHMCconfig),
+  #AHMCNUTS(AHMCregression,AHMCconfig),
   DHMCNUTS(sampleDHMC,2000))
   #DNNUTS(DNregression,DNconfig))
 
@@ -59,8 +59,13 @@ results = pbenchmark(samplers,simulateRegression,Nreps;options...)
 #save results
 save(results,ProjDir)
 
-pyplot()
-cd(pwd)
+if Sys.islinux()
+  pyplot()
+  cd(pwd)
+else
+  gr(size=(400,400))
+end
+
 dir = "results/"
 
 #Plot parameter recovery

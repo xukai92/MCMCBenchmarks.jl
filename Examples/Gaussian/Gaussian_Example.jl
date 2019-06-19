@@ -1,4 +1,4 @@
-using Revise,MCMCBenchmarks,Distributed
+using MCMCBenchmarks,Distributed
 Nchains=4
 setprocs(Nchains)
 
